@@ -274,7 +274,7 @@ $anim-time: 0.4s;
         font-size: 1.5em;
     }
     100% {
-        transform: translate(0,-10000%);
+        transform: translate(0,-8000%);
         max-height: 1px;
         font-size: 1.5em;
         padding-top: 0px;
@@ -283,7 +283,7 @@ $anim-time: 0.4s;
 
 @keyframes down {
     0% {
-        transform: translate(0,-10000%);
+        transform: translate(0,-8000%);
         font-size: 1.5em;
         max-height: 1px;
         padding-top: 0px;
