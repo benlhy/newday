@@ -1,0 +1,451 @@
+/* VARS */
+$font-color: #ffffff;
+$font-fam: 'Source Sans Pro', Helvetica, sans-serif;
+
+/* MEYER RESET
+http://meyerweb.com/eric/tools/css/reset/ 
+v2.0 | 20110126
+License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* GENERAL */
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+span.bold {
+    font-weight: 700;
+}
+
+a {
+    outline: none;
+    color: $font-color;
+    text-decoration: none;
+}
+
+.tab {
+    display: inline-block;
+    padding-left: 10px;
+}
+
+/* CONTAINER */
+.container {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    background:url('../imgs/bgs/cross.jpg');
+    background-size: cover;
+    background-position: center;
+    color: $font-color;
+    font-family: $font-fam;
+    font-size: 1em;
+}
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(26,26,26,.6);
+    box-sizing: border-box;
+}
+
+.inner, .clock {
+    padding: 25px 100px 25px 100px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.clock {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12em;
+    color: $font-color;
+    font-family: $font-fam;
+}
+
+.clock span {
+    display: block;
+    font-weight: 200;
+}
+
+.hidden {
+    display: none;
+}
+
+/* HEADER */
+.header {
+    text-transform: uppercase;
+    font-weight: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header div {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#time {
+    font-size: 1.2em;
+}
+
+.header .center {
+    text-align: center;
+    justify-content: center;
+}
+
+.header .right {
+    text-align: right;
+    justify-content: flex-end;
+}
+
+.header .icon {
+    height: 25px;
+    width: auto;
+}
+
+.header .gps-icon {
+    height: 12px;
+    margin-left: 12px;
+    opacity: .8;
+}
+
+.header .header-button:hover {
+    cursor: pointer;
+}
+
+.header .header-button {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0,140,255,0);
+    border-radius: 50px;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .header-button:active {
+    background-color: rgba(0,140,255,1);
+}
+
+span.tab {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+/* CONTENT */
+$content-height: 415px;
+$content-padding: 20px;
+.content {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: $content-height;
+    padding-top: $content-padding;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.weather {
+    overflow: visible;
+    height: auto;
+    width: 100%;
+}
+
+$anim-time: 0.4s;
+
+.weather .weather-icon {
+    padding-top: 60px;
+    display: block;
+    font-size: 14em;
+    max-height: $content-height;
+    height: auto;
+    animation: down $anim-time ease-in-out;
+    animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.weather .weather-icon.up {
+    animation: up $anim-time ease-in-out;
+    animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.weather .text {
+    display: block;
+    overflow: hidden;
+    height: auto;
+    animation: show $anim-time ease-in-out;
+    animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.weather .text.hide {
+    animation: hide $anim-time ease-in-out;
+    animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes up {
+    from { 
+        transform: translate(0,0);
+        font-size: 14em;
+    }
+    to { 
+        transform: translate(0,-85px);
+        font-size: 1.5em;
+        max-height: 0;
+        padding-top: 0px;
+    }
+}
+
+@keyframes down {
+    from {
+        transform: translate(0,-85px);
+        font-size: 1.5em;
+        max-height: 0;
+        padding-top: 0px;
+    }
+    to {
+        transform: translate(0,0);
+        font-size: 14em;
+        padding-top: 60px;
+    }
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+        max-height: $content-height - $content-padding;
+    }
+    100% {
+        opacity: 0;
+        max-height: 0px;
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        max-height: 0;
+    }
+    20% {
+        opacity: 0;
+        max-height: $content-height - $content-padding;
+    }
+    100% {
+        opacity: 1;
+        max-height: $content-height - $content-padding;
+    }
+}
+
+.weather .text {
+    font-size: 1.6em;
+    line-height: 1.4em;
+    letter-spacing: .03em;
+}
+
+/* WIDGET CONTENT */
+.widget {
+    height: 0;
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+    position: relative;
+    opacity: 0;
+    border-radius: 20px;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+.widget.active {
+    animation: widget-show $anim-time ease-in-out;
+    animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    animation-delay: $anim-time;
+}
+
+@keyframes widget-show {
+    0% {
+        opacity: 0;
+        height: 0;
+    }
+    20% {
+        opacity: 0;
+        height: $content-height - $content-padding;
+    }
+    100% {
+        opacity: 1;
+        height: $content-height - $content-padding;
+    }
+}
+
+/* MIRROR */
+#mirrorVideo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: none;
+    transform: rotateY(180deg);
+}
+
+/* ACTIONS */
+.actions {
+    height: 20%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top: 60px;
+}
+
+.action, a.action {
+    width: 180px;
+    height: 180px;
+    background-color: rgba(0,140,255,0);
+    border-radius: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.15s;
+}
+
+.action:hover {
+    cursor: pointer;
+}
+
+.action.active, .action:active {
+    background-color: rgba(0,140,255,1);
+}
+
+.action-icon {
+    height: 50px;
+    width: auto;
+    display: block;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1335px) {
+    .inner {
+        padding: 20px 50px 20px 50px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .action {
+        width: 140px;
+        height: 140px;
+        border-radius: 140px;
+    }
+
+    .action-icon {
+        height: 40px;
+    }
+}
+
+@media (max-width: 980px) {
+    .actions {
+        display: block;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        padding-bottom: 12px;
+    }
+
+    .action {
+        display: inline-flex;
+        margin-right: 15px;
+    }
+
+
+    .actions::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    .actions::-webkit-scrollbar-track {
+        background-color: rgba(0,0,0,0);
+    }
+
+    .actions::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.3); 
+        border-radius: 100px;
+        transition: background-color 0.15s;
+    }
+
+    .actions::-webkit-scrollbar-thumb:active {
+        background-color: rgba(255, 255, 255, 0.5); 
+    }
+
+    .actions::-webkit-scrollbar-button {
+        background-color: rgba(0,0,0,0);
+    }
+
+}
