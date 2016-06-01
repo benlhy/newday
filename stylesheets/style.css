@@ -321,17 +321,20 @@ span.tab {
 /* WIDGET CONTENT */
 /* line 341, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .widget {
+  position: absolute;
   height: 0;
   display: block;
-  margin: 0 auto;
+  margin: auto;
+  left: 0;
+  right: 0;
   width: 70%;
-  position: relative;
   opacity: 0;
   border-radius: 20px;
   transition: 0.3s;
-  overflow: hidden; }
+  overflow: hidden;
+  z-index: 100; }
 
-/* line 353, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 356, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .widget.active {
   animation: widget-show 0.4s ease-in-out;
   animation-iteration-count: 1;
@@ -351,7 +354,7 @@ span.tab {
     height: 395px; } }
 
 /* MIRROR */
-/* line 377, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 380, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 #mirrorVideo {
   position: relative;
   width: 100%;
@@ -359,8 +362,183 @@ span.tab {
   display: none;
   transform: rotateY(180deg); }
 
+/* TODO */
+/* line 389, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo {
+  margin-top: 20px;
+  border-radius: 0;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  overflow: visible; }
+
+/* line 398, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.nothing {
+  width: 100%;
+  height: 80%;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  display: none; }
+
+/* line 408, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.nothing.active {
+  display: flex; }
+
+/* line 412, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.addTodo {
+  width: 100%;
+  height: 50px;
+  overflow-x: visible;
+  box-sizing: border-box;
+  text-align: left;
+  padding-left: 25px;
+  padding-right: 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px; }
+
+/* line 426, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.addTodo input {
+  border: 0;
+  border-bottom: 1px solid white;
+  padding: 8px;
+  box-sizing: border-box;
+  color: white;
+  background: none;
+  outline: none;
+  width: 80%;
+  text-align: left;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-size: 1.2em;
+  flex: 1;
+  margin-right: 20px;
+  opacity: 0.5;
+  transition: opacity 0.2s; }
+
+/* line 444, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.addTodo input:focus, .addTodo input:focus + img {
+  opacity: 1; }
+
+/* line 448, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.addTodo img {
+  width: 30px;
+  height: auto;
+  opacity: 0.5;
+  transition: opacity 0.2s; }
+
+/* line 455, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.addTodo:hover {
+  cursor: pointer; }
+
+/* line 459, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul {
+  width: 100%;
+  height: 90%;
+  list-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  flex: 1; }
+
+/* line 471, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul input[type=checkbox] {
+  visibility: hidden;
+  position: absolute;
+  left: -100px; }
+
+/* line 477, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li {
+  margin-bottom: 20px; }
+
+/* line 481, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+  border-radius: 30px;
+  padding: 15px;
+  position: relative;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.1s; }
+
+/* line 495, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li label .box {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: translate(10, 0);
+  border: 2px solid white;
+  background-color: 0;
+  margin-right: 15px;
+  margin-left: 15px;
+  transition: background 0.1s; }
+
+/* line 508, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li label .remove {
+  height: 12px;
+  width: auto;
+  margin-right: 15px;
+  margin-left: 15px;
+  opacity: .5;
+  transition: opacity 0.1s; }
+
+/* line 517, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li label .remove:hover {
+  cursor: pointer;
+  opacity: 1; }
+
+/* line 522, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li input[type=checkbox]:checked + label .box {
+  background-color: white; }
+
+/* line 526, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li input[type=checkbox]:checked + label {
+  opacity: 0.5; }
+
+/* line 530, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li label span {
+  display: inline-block;
+  font-size: 1.5em;
+  line-height: 1.3em;
+  flex: 1; }
+
+/* line 537, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul li label:hover {
+  cursor: pointer; }
+
+/* line 541, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul::-webkit-scrollbar {
+  width: 10px; }
+
+/* line 545, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul::-webkit-scrollbar-track {
+  background-color: transparent; }
+
+/* line 549, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 100px;
+  transition: background-color 0.15s; }
+
+/* line 555, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul::-webkit-scrollbar-thumb:active {
+  background-color: rgba(255, 255, 255, 0.5); }
+
+/* line 559, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+.todo ul::-webkit-scrollbar-button {
+  background-color: transparent; }
+
 /* ACTIONS */
-/* line 386, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 564, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .actions {
   height: 20%;
   min-height: 240px;
@@ -370,9 +548,10 @@ span.tab {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding-top: 60px; }
+  padding-top: 60px;
+  z-index: 10; }
 
-/* line 398, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 577, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .action, a.action {
   width: 180px;
   height: 180px;
@@ -384,15 +563,15 @@ span.tab {
   align-items: center;
   transition: background 0.15s; }
 
-/* line 410, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 589, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .action:hover {
   cursor: pointer; }
 
-/* line 414, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 593, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .action.active, .action:active {
   background-color: #008cff; }
 
-/* line 418, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+/* line 597, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .action-icon {
   height: 50px;
   width: auto;
@@ -401,25 +580,25 @@ span.tab {
   box-sizing: border-box; }
 
 @media (max-width: 1335px) {
-  /* line 427, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 606, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .inner {
     padding: 20px 50px 20px 50px; } }
 
 @media (max-width: 1200px) {
-  /* line 433, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 612, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions {
     min-height: 200px; }
-  /* line 437, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 616, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .action {
     width: 140px;
     height: 140px;
     border-radius: 140px; }
-  /* line 443, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 622, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .action-icon {
     height: 40px; } }
 
 @media (max-width: 980px) {
-  /* line 449, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 628, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions {
     height: 240px;
     display: block;
@@ -427,30 +606,33 @@ span.tab {
     overflow-y: hidden;
     white-space: nowrap;
     padding-bottom: 12px; }
-  /* line 458, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 637, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .action, a.action {
     display: inline-flex;
     margin-right: 15px; }
-  /* line 463, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 642, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions::-webkit-scrollbar {
     height: 10px; }
-  /* line 467, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 646, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions::-webkit-scrollbar-track {
     background-color: transparent; }
-  /* line 471, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 650, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 100px;
     transition: background-color 0.15s; }
-  /* line 477, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 656, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions::-webkit-scrollbar-thumb:active {
     background-color: rgba(255, 255, 255, 0.5); }
-  /* line 481, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 660, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .actions::-webkit-scrollbar-button {
-    background-color: transparent; } }
+    background-color: transparent; }
+  /* line 664, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  .widget {
+    width: 80%; } }
 
 @media (max-height: 730px) {
-  /* line 488, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
+  /* line 670, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
   .inner {
     display: block;
     position: relative;

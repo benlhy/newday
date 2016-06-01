@@ -35,8 +35,18 @@
                         <div class="text"><span class="bold"><span id="greeting">Good morning</span>, <span id="name">Arielle</span></span>. It's <span class="bold" id="temp">some temperature (currently unreadable)</span> outside.<br/>What would you like to do?</div>
                     </div>
 
-                    <div class="widget mirror">
+                    <div class="widget mirror" id="mirror">
                         <video autoplay id="mirrorVideo"></video>
+                    </div>
+
+                    <div class="widget todo" id="todo">
+                        <ul>
+                            <div class="nothing">You have no todos. Try adding one!</div>
+                        </ul>
+                        
+                        <div class="addTodo">
+                            <input id="addInput" type="text" placeholder="I have to..."/><img id="addButton" src="imgs/plus-button.svg">
+                        </div>
                     </div>
                 </div>
                 <div class="actions">
@@ -52,15 +62,15 @@
                         <img class="action-icon" src="imgs/todo.svg">
                         <span class="bold">TODO</span>
                     </div>
-                    <a href="https://gmail.com" target="_blank" class="action" name="email">
+                    <a href="https://gmail.com" class="action" name="email">
                         <img class="action-icon" src="imgs/email.svg">
                         <span class="bold">EMAIL</span>
                     </a>
-                    <a href="https://netflix.com" target="_blank" class="action" name="watch">
+                    <a href="https://netflix.com" class="action" name="watch">
                         <img class="action-icon" src="imgs/tv.svg">
                         <span class="bold">WATCH</span>
                     </a>
-                    <a href="https://play.spotify.com/" target="_blank" class="action" name="music">
+                    <a href="https://play.spotify.com/" class="action" name="music">
                         <img class="action-icon" src="imgs/music.svg">
                         <span class="bold">MUSIC</span>
                     </a>

@@ -135,7 +135,7 @@ var compareCoords = function(latlng1, latlng2) {
 var setPosition = function(position) {
     latlng[0] = position.coords.latitude;
     latlng[1] = position.coords.longitude;
-    
+
     // Check previous coords against current coords to see if reverse geocoding is necessary
     var oldLatLng = settings[LATLNG];
     console.log("old: " + oldLatLng + ", new: " + latlng);
@@ -148,7 +148,7 @@ var setPosition = function(position) {
     } else {
         saveSetting(LATLNG, latlng);
     }
-    
+
     reverseGeocode();
 }
 
@@ -262,6 +262,9 @@ var toggleWidget = function(widget) {
         case "mirror":
             toggleMirror();
             break;
+        case "todo":
+            toggleTodo();
+            break;
     }
 }
 
@@ -303,6 +306,73 @@ var turnOffMirror = function() {
     localStream = null;
     $("#mirrorVideo").hide();
 }
+
+/* TODO */
+var toggleTodo = function() {
+
+}
+
+var number = 0;
+var todoList = $(".todo ul");
+
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
+
+var checkForTodos = function() {
+    return ($("ul li").length > 0);
+}
+
+var checkForNothing = function() {
+    if (!checkForTodos()) {
+        $(".nothing").addClass("active");
+    }
+}
+
+checkForNothing();
+
+var addToDo = function() {
+    var input = $("#addInput");
+    
+    if ($(".nothing").hasClass("active")) {
+        $(".nothing").removeClass("active");
+    }
+    
+    if (input.val() && input.val().replace(/\s/g, '').length > 0) {
+        var text = encodeHTML(input.val());
+        var el = '<li><input type="checkbox" id="' + number + '"><label for="' + number + '"><div class="box"></div><span>' + text + '</span><img class="remove" src="imgs/cross.svg"></label></li>';
+        todoList.append(el);
+        number++;
+        input.val("");
+        addEventListeners();
+    }
+}
+
+var removeToDo = function(todo) {
+    $(todo).remove();
+    checkForNothing();
+}
+
+var addEventListeners = function() {
+    console.log($("#remove"));
+    $(".remove").click(function(e) {
+        removeToDo(e.target.parentElement.parentElement);
+    });
+}
+
+addEventListeners();
+
+$("#addButton").click(function() {
+    addToDo();
+});
+
+$("#addInput").on("keydown", function(e) {
+    if (e.keyCode == 13) {
+        addToDo();
+    }
+});
+
+
 
 /* ON LOAD */
 var setup = function(items) {

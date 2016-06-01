@@ -11,7 +11,18 @@ var currentActive = null;
 var $actionButtons = $("div.action");
 var weatherIcon = $(".weather-icon");
 var weatherText = $(".weather .text");
-var widget = $(".widget");
+
+var getWidgets = function() {
+    var ws = $(".widget");
+    var widgets = {};
+    for (var i = 0; i < ws.length; i++) {
+        widgets[ws[i].id] = ws[i];
+    }
+    return widgets;
+}
+
+var widgets = getWidgets();
+
 
 $(".clock").click(function() {
     $(this).addClass("hidden");
@@ -41,11 +52,12 @@ $actionButtons.click(function(e) {
     if (currentActive != null) {
         console.log(currentActive);
         currentActive.removeClass(ACTIVE);
+        $(widgets[currentActive.attr('name')]).removeClass(ACTIVE);
         if (currentActive[0] == target[0]) {
             transitionWeather();
-            widget.removeClass(ACTIVE);
-            console.log("Current widget: " + target.attr('name'));
+
             toggleWidget(target.attr('name'));
+            console.log("Current widget: " + target.attr('name'));
             currentActive = null;
             return;
         }
@@ -57,6 +69,7 @@ $actionButtons.click(function(e) {
     toggleWidget(target.attr('name'));
     if (!weatherIcon.hasClass("up")) {
         transitionWeather();
-        widget.addClass(ACTIVE);
+        console.log(widgets[currentActive.attr('name')]);
     }
+    $(widgets[currentActive.attr('name')]).addClass(ACTIVE);
 });
