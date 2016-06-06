@@ -29,6 +29,9 @@ var timeOfDay = 0; // 0 - morning, 1 - day, 2 - evening/night
 
 var latlng = [0,0];
 
+var SIZE = 25; // Todo list max size
+var MAXHOURS = 5; // Max time a checked todo item stays on list
+
 // Storage Keys
 var NAME = "name"; // string
 var LATLNG = "latlng"; // 2-integer array
@@ -36,6 +39,7 @@ var TOWN = "town"; // string
 var CELSIUS = "celsius"; // boolean
 var MILITARYTIME = "militaryTime"; // boolean
 var PREVWEATHER = "prevWeather"; // object containing timestamp and the previous weather (temperature, weather code)
+var TODO = "todo";
 
 /* STORED SETTINGS */
 var settings = {};
@@ -61,6 +65,7 @@ var getSettings = function() {
     def[CELSIUS] = false;
     def[MILITARYTIME] = false;
     def[LATLNG] = null; def[TOWN] = null; def[PREVWEATHER] = null;
+    def[TODO] = new Todo(SIZE);
     chrome.storage.sync.get(def, setup);
 }
 
@@ -329,34 +334,84 @@ var checkForNothing = function() {
     }
 }
 
-checkForNothing();
+var addTodoToDom = function(item) {
+    var checked = "";
+    
+    if (todo.itemChecked(item.id))
+        checked = " checked ";
+    
+    var el = '<li id="' + item.id + '"><input type="checkbox" id="' + number + '"' + checked + '><label for="' + number + '"><div class="box"></div><span>' + item.text + '</span><img class="remove" src="imgs/cross.svg"></label></li>';
+    
+    todoList.append(el);
+    number++;
+    addEventListeners();
+}
+
+var loadTodos = function() {
+    var current = todo.head;
+    var changed = false;
+
+    while (current) {
+        if (todo.itemCheckedOverRange(current, hoursToMillis(MAXHOURS))) {
+            var next = current.next;
+            todo.removeItemFromId(current.id);
+            current = todo.item(next);
+            changed = true;
+        } else {
+            addTodoToDom(current);
+            current = todo.item(current.next);
+        }
+    }
+    
+    if (changed)
+        saveSetting(TODO, JSON.stringify(todo));
+}
 
 var addToDo = function() {
     var input = $("#addInput");
-    
+
     if ($(".nothing").hasClass("active")) {
         $(".nothing").removeClass("active");
     }
-    
+
     if (input.val() && input.val().replace(/\s/g, '').length > 0) {
         var text = encodeHTML(input.val());
-        var el = '<li><input type="checkbox" id="' + number + '"><label for="' + number + '"><div class="box"></div><span>' + text + '</span><img class="remove" src="imgs/cross.svg"></label></li>';
-        todoList.append(el);
-        number++;
+        var item = todo.addTodo(text);
+        saveSetting(TODO, JSON.stringify(todo));
+
+        if (!item) {
+            // TODO: Add "todo list full" notice
+            return;
+        }
+
+        addTodoToDom(item);
         input.val("");
-        addEventListeners();
     }
 }
 
-var removeToDo = function(todo) {
-    $(todo).remove();
+var removeToDo = function(domEl) {
+    var itemId = parseInt(domEl.getAttribute('id'));
+    todo.removeItemFromId(itemId);
+    $(domEl).remove();
     checkForNothing();
+    console.log(todo);
+    saveSetting(TODO, JSON.stringify(todo));
 }
 
 var addEventListeners = function() {
-    console.log($("#remove"));
-    $(".remove").click(function(e) {
+    $(".remove").off().on('click', function(e) {
         removeToDo(e.target.parentElement.parentElement);
+    });
+
+    $('input[type=checkbox]').off().on('change', function(){
+        var id = parseInt($(this).parent()[0].getAttribute('id'));
+        console.log(id);
+        if (this.checked) {
+            todo.checkItem(id);
+        } else {
+            todo.uncheckItem(id);
+        }
+        saveSetting(TODO, JSON.stringify(todo));
     });
 }
 
@@ -386,6 +441,12 @@ var setup = function(items) {
     setInterval(function(){setCurrentTime()}, 1000);
 
     getWeather();
+    todo = new Todo(JSON.parse(settings[TODO]));
+    //todo = new Todo(25);
+    //saveSetting(TODO, JSON.stringify(todo));
+    console.log(todo);
+    loadTodos();
+    checkForNothing();
 }
 
 getSettings();
