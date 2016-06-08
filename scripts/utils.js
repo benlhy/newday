@@ -26,3 +26,7 @@
 function hoursToMillis(hours) {
     return hours * 3600000;
 }
+
+function minsToMillis(mins) {
+    return mins*60000;
+}

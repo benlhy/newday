@@ -18,6 +18,8 @@ var ADDITIONAL = "F";
 
 var DEGREES = "°";
 
+var WEATHER_INTERVAL = 30;
+
 var AM = " AM";
 var PM = " PM";
 
@@ -64,7 +66,7 @@ var getSettings = function() {
     def[NAME] = "Stranger";
     def[CELSIUS] = false;
     def[MILITARYTIME] = false;
-    def[LATLNG] = null; def[TOWN] = null; def[PREVWEATHER] = null;
+    def[LATLNG] = null; def[TOWN] = null; def[PREVWEATHER] = weather;
     def[TODO] = new Todo(SIZE);
     chrome.storage.sync.get(def, setup);
 }
@@ -163,27 +165,34 @@ var setLocation = function(location) {
 }
 
 /* WEATHER */
+var weather = {};
 var weatherIcon = $(".weather-icon");
+
+// Weather Storage Keys
+var wTIME = 'time';
+var wTEMP = 'temp';
+var wDATA = 'data;'
 
 var changeWeatherIcon = function(data) {
     weatherIcon.attr('data-icon', data);
 }
 
-// TODO: Check for preexisting weather within the last 30 minutes
 // Make API call
 var openWeatherAPI = "http://api.openweathermap.org/data/2.5/weather?";
 var openWeatherID = "420d77af5f110cd9de8a392d6e054ac1";
 
 var getWeather = function() {
-    var town = settings[TOWN].split(" ").join("");
+    var town = settings[TOWN];
     $.getJSON( openWeatherAPI, {
         q: town,
         appid: openWeatherID
     }).done(function( json ) {
+        weather[wTIME] = (new Date()).getTime();
         if (json.weather && json.weather.length > 0)
             parseWeather(json.weather[0].id);
         if (json.main && json.main.temp)
             setTemp(json.main.temp);
+        saveSetting(PREVWEATHER, weather);
     }).fail(function( jqxhr, textStatus, error ) {
         var err = textStatus + ", " + error;
         console.log( "Weather Request Failed: " + err );
@@ -239,7 +248,7 @@ var parseWeather = function(weatherID) {
 
     if (data != undefined) {
         changeWeatherIcon(data);
-        // TODO: Save current data and timestamp
+        weather[wDATA] = data;
     }
 }
 
@@ -252,6 +261,8 @@ var kelvinToFahrenheit = function(temp) {
 }
 
 var setTemp = function(temp) {
+    console.log("Received temp " + temp);
+    weather[wTEMP] = temp;
     var value = "";
     if (celsius) {
         value = kelvinToCelsius(temp);
@@ -259,6 +270,16 @@ var setTemp = function(temp) {
         value = kelvinToFahrenheit(temp);
     }
     $("#temp").text(Math.round(value) + DEGREES);
+}
+
+var checkPrevWeather = function() {
+    console.log(weather);
+    if (weather[wTIME] && weather[wTEMP] && weather[wDATA] && (((new Date()).getTime()) - weather[wTIME]) < minsToMillis(WEATHER_INTERVAL)) {
+        setTemp(weather[wTEMP]);
+        changeWeatherIcon(weather[wDATA]);
+    } else {
+        getWeather();
+    }
 }
 
 /* WIDGET HANDLER */
@@ -394,7 +415,6 @@ var removeToDo = function(domEl) {
     todo.removeItemFromId(itemId);
     $(domEl).remove();
     checkForNothing();
-    console.log(todo);
     saveSetting(TODO, JSON.stringify(todo));
 }
 
@@ -427,7 +447,24 @@ $("#addInput").on("keydown", function(e) {
     }
 });
 
+/* UPDATES */
+var updateBundles = {
+    0: function() {
+        setCurrentTime();
+    },
+    1: function() {
+        setCurrentTime();
+        getWeather();
+    }
+};
+var interval = 0;
+//var changeTimes = [1, 30]; // If I need a good way to open up updates at different times, could do math stuff or have mutliple interval vars
 
+var updatePage = function() {
+    interval += 1;
+    interval %= 31;
+    updateBundles[parseInt(interval/30)]();
+}
 
 /* ON LOAD */
 var setup = function(items) {
@@ -438,13 +475,10 @@ var setup = function(items) {
     updateTimeOfDay();
     setGreeting();
     setCurrentTime();
-    setInterval(function(){setCurrentTime()}, 1000);
+    setInterval(function(){updatePage()}, 1000);
 
-    getWeather();
+    checkPrevWeather();
     todo = new Todo(JSON.parse(settings[TODO]));
-    //todo = new Todo(25);
-    //saveSetting(TODO, JSON.stringify(todo));
-    console.log(todo);
     loadTodos();
     checkForNothing();
 }
