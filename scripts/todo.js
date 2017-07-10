@@ -1,6 +1,8 @@
 /* todo.js
  * by Arielle Chapin
  * Requirements: <String>.hashCode() from utils.js
+ * Additional functionality added
+ * by Benjamen Lim
  */
 
 var TodoItem = function(text, prev) {
@@ -90,7 +92,7 @@ Todo.prototype.removeItemFromId = function(id) {
     delete this.items[id];
 
     this.size--;
-    
+
     if (this.size > 0)
         this.updateEnds();
 

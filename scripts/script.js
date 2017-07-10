@@ -2,6 +2,9 @@
  * Name warrant to change
  * v.1.0.0
  * by Arielle Chapin
+ * Additional functionality and bugfixes
+ * v.1.0.1
+ * by Benjamen Lim
  */
 
 /* GLOBALS */
@@ -43,12 +46,17 @@ var MILITARYTIME = "militaryTime"; // boolean
 var PREVWEATHER = "prevWeather"; // object containing timestamp and the previous weather (temperature, weather code)
 var TODO = "todo";
 
+var savedName = "";
+var musicAddress = "";
+var watchAddress = "";
 /* STORED SETTINGS */
 var settings = {};
 
 /* GLOBAL SETTINGS */
 var militaryTime = false;
-var celsius = false;
+var celsius = true;
+var getlocation = true;
+var userimg = false;
 
 /* GET AND SET STORAGE */
 var saveSetting = function(key, value) {
@@ -64,11 +72,89 @@ var saveSetting = function(key, value) {
 var getSettings = function() {
     var def = {};
     def[NAME] = "Stranger";
-    def[CELSIUS] = false;
+    def[CELSIUS] = true;
     def[MILITARYTIME] = false;
     def[LATLNG] = null; def[TOWN] = null; def[PREVWEATHER] = weather;
     def[TODO] = new Todo(SIZE);
+    loadChanges();
     chrome.storage.sync.get(def, setup);
+}
+
+
+var loadChanges = function() {
+    var channels = "";
+    var keywords = "";
+    chrome.storage.sync.get("myName", function (items) {
+      //items =[{"value":userName}]
+        dataName = items.myName;
+        if (dataName=="undefined"|dataName==null){
+          dataName = 'Stranger';
+        }
+        //console.log(items.myName);
+        document.getElementById("namearea").value = dataName;
+        savedName = dataName;
+        console.log("IN load changes");
+        console.log(savedName);
+    });
+    chrome.storage.sync.get("tempUnit",function(items){
+      celsius = items.tempUnit;
+      if (celsius){
+        document.getElementById("tempCheckbox").checked = true;
+      }
+      else {
+        document.getElementById("tempCheckbox").checked = false;
+      }
+      console.log("IN load changes, celsius");
+      console.log(celsius);
+    });
+    chrome.storage.sync.get("myMusic",function(items){
+      musicAddress = items.myMusic;
+      console.log("Music address is");
+      console.log(musicAddress);
+      if (musicAddress=="undefined"|musicAddress==null){
+        musicAddress="play.spotify.com";
+        console.log("Breakpoint 3");
+      }
+      //console.log(musicAddress);
+      document.getElementById('music').href = "http://".concat(musicAddress);
+      document.getElementById("musicarea").value = musicAddress;
+      console.log("IN load changes, music");
+      console.log(musicAddress);
+    });
+    chrome.storage.sync.get("myWatch",function(items){
+      watchAddress = items.myWatch;
+      if (watchAddress=="undefined"|watchAddress==null){
+        watchAddress="www.netflix.com";
+      }
+      document.getElementById('watch').href = "http://".concat(watchAddress);
+      document.getElementById("watcharea").value = watchAddress;
+      console.log("IN load changes, watch");
+      console.log(watchAddress);
+    });
+    chrome.storage.local.get("myImage",function(obj){
+      console.log(obj);
+      if ((obj.myImage==null|obj.myImage=='undefined')&&(userimg==false)){
+        console.log("No loaded images");
+        var presetimages = ['cross.jpg', 'gone.jpg', 'island.jpg', 'snownight.jpg'];
+        $('#container').css({'background': 'url(../imgs/bgs/' + presetimages[Math.floor(Math.random() * presetimages.length)] + ')'});
+        $('#container').css({'background-size': 'cover'});
+        console.log("Done");
+      }
+      else {
+        var img = new Image();
+        img.src = obj.myImage;
+        console.log(img.src);
+        console.log(img.src);
+        document.getElementById('container').style.background = "url('"+img.src+"') no-repeat";
+        document.getElementById('container').style.backgroundSize = "cover";
+      }
+
+
+      //$(".container").css('background',img);
+
+      //container.appendChild(img);
+      //fileDisplayArea.appendChild(img);
+    });
 }
 
 /* TIME */
@@ -90,7 +176,7 @@ var setCurrentTime = function() {
     var currentTime = new Date();
     var hours = currentTime.getHours();
     if (!militaryTime) {
-        amPm = (hours > 11) ? PM : AM;        
+        amPm = (hours > 11) ? PM : AM;
         var hours = ((hours + 11) % 12) + 1;
     }
     var minutes = currentTime.getMinutes();
@@ -109,6 +195,9 @@ var greetings = ["Good morning", "Good afternoon", "Good evening"];
 
 var setGreeting = function() {
     $("#greeting").text(greetings[timeOfDay]);
+    console.log("IN set greeting:");
+    console.log(savedName);
+    $("#name").text(savedName);
 }
 
 /* LOCATION */
@@ -116,7 +205,7 @@ var reverseGeocodeAPI = "https://maps.googleapis.com/maps/api/geocode/json?";
 var googleID = "AIzaSyBvBmzBLfLXTFJT4KqaubihRp-Km4OVhC0";
 
 var reverseGeocode = function() {
-    $.getJSON( reverseGeocodeAPI, { 
+    $.getJSON( reverseGeocodeAPI, {
         latlng: latlng[0] + "," + latlng[1],
         key: googleID
     }).done(function( json ) {
@@ -318,7 +407,7 @@ var toggleMirror = function() {
 }
 
 var turnOnMirror = function() {
-    if (navigator.getUserMedia) {       
+    if (navigator.getUserMedia) {
         navigator.getUserMedia({video: true, audio: false}, handleVideo, videoError);
     } else {
         return;
@@ -357,12 +446,12 @@ var checkForNothing = function() {
 
 var addTodoToDom = function(item) {
     var checked = "";
-    
+
     if (todo.itemChecked(item.id))
         checked = " checked ";
-    
+
     var el = '<li id="' + item.id + '"><input type="checkbox" id="' + number + '"' + checked + '><label for="' + number + '"><div class="box"></div><span>' + item.text + '</span><img class="remove" src="imgs/cross.svg"></label></li>';
-    
+
     todoList.append(el);
     number++;
     addEventListeners();
@@ -371,7 +460,6 @@ var addTodoToDom = function(item) {
 var loadTodos = function() {
     var current = todo.head;
     var changed = false;
-
     while (current) {
         if (todo.itemCheckedOverRange(current, hoursToMillis(MAXHOURS))) {
             var next = current.next;
@@ -379,13 +467,15 @@ var loadTodos = function() {
             current = todo.item(next);
             changed = true;
         } else {
+            console.log(current);
+            console.log("Breakpoint 3");
             addTodoToDom(current);
             current = todo.item(current.next);
         }
     }
-    
     if (changed)
-        saveSetting(TODO, JSON.stringify(todo));
+        //saveSetting(TODO, JSON.stringify(todo));
+        saveSetting(TODO, todo);
 }
 
 var addToDo = function() {
@@ -397,14 +487,13 @@ var addToDo = function() {
 
     if (input.val() && input.val().replace(/\s/g, '').length > 0) {
         var text = encodeHTML(input.val());
-        var item = todo.addTodo(text);
-        saveSetting(TODO, JSON.stringify(todo));
-
+        var item =  todo.addTodo(text);
+        //saveSetting(TODO, JSON.stringify(todo));
+        saveSetting(TODO,todo);
         if (!item) {
             // TODO: Add "todo list full" notice
             return;
         }
-
         addTodoToDom(item);
         input.val("");
     }
@@ -415,7 +504,8 @@ var removeToDo = function(domEl) {
     todo.removeItemFromId(itemId);
     $(domEl).remove();
     checkForNothing();
-    saveSetting(TODO, JSON.stringify(todo));
+    //saveSetting(TODO, JSON.stringify(todo));
+    saveSetting(TODO, todo);
 }
 
 var addEventListeners = function() {
@@ -431,11 +521,12 @@ var addEventListeners = function() {
         } else {
             todo.uncheckItem(id);
         }
-        saveSetting(TODO, JSON.stringify(todo));
+        //saveSetting(TODO, JSON.stringify(todo));
+        saveSetting(TODO, todo);
     });
 }
 
-addEventListeners();
+//addEventListeners();
 
 $("#addButton").click(function() {
     addToDo();
@@ -466,22 +557,97 @@ var updatePage = function() {
     updateBundles[parseInt(interval/30)]();
 }
 
+var saveChanges = function() {
+  var userName = document.getElementById("namearea").value;
+  if (!userName) {
+    alert('Error: No value specified');
+    return;
+  }
+  // Save it using the Chrome extension storage API.
+  console.log("Settings Saved");
+  var c=document.getElementById('tempCheckbox');
+  if(c.checked){
+    celsius=true;
+  }
+  else {
+    celsius=false;
+  }
+  var s=document.getElementById('musicarea').value;
+  var w=document.getElementById('watcharea').value;
+  var i=document.getElementById('image');
+  i = readURL(i);
+
+
+  //var ie=getBase64Image(i);
+  chrome.storage.sync.set({'myName': userName});
+  chrome.storage.sync.set({'tempUnit':celsius});
+  chrome.storage.sync.set({'myMusic': s});
+  chrome.storage.sync.set({"myWatch":w});
+}
+
+function readURL(input){
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+
+    reader.onload = function(e){
+      var test ="";
+      //var img = new Image();
+      //img.src = reader.result;
+      test = reader.result;
+      chrome.storage.local.set({"myImage":test});
+      console.log(test);
+
+      //fileDisplayArea.appendChild(img);
+    }
+    reader.readAsDataURL(input.files[0]);
+
+    console.log("Execution of image complete");
+  }
+}
+
+document.getElementById("image").addEventListener("change", readURL(this));
+
+var getBase64Image = function(img) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
+
 /* ON LOAD */
 var setup = function(items) {
     settings = items;
+    loadChanges();
     console.log(settings);
-    getCurrentLocation();
+
+    getCurrentLocation()
 
     updateTimeOfDay();
+
     setGreeting();
     setCurrentTime();
-    setInterval(function(){updatePage()}, 1000);
+    setInterval(function(){updatePage()}, 5000);
 
     checkPrevWeather();
-    todo = new Todo(JSON.parse(settings[TODO]));
+    //Until fix is issued for TODO
+    todo = new Todo(settings[TODO]);
     loadTodos();
+
     checkForNothing();
 }
 
 getSettings();
-

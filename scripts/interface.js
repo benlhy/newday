@@ -24,14 +24,30 @@ var getWidgets = function() {
 var widgets = getWidgets();
 
 
+
 $(".clock").click(function() {
     $(this).addClass("hidden");
     $(".inner").removeClass("hidden");
 });
 
+$("#home-button").click(function() {
+  $(".clock").addClass("hidden");
+  $(".settings").addClass("hidden");
+  $(".inner").removeClass("hidden");
+  //console.log("Test test");
+  saveChanges();
+});
+
 $("#clock-button").click(function() {
     $(".inner").addClass("hidden");
+    $(".settings").addClass("hidden");
     $(".clock").removeClass("hidden");
+});
+
+$("#settings-button").click(function() {
+    $(".inner").addClass("hidden");
+    $(".clock").addClass("hidden");
+    $(".settings").removeClass("hidden");
 });
 
 var transitionWeather = function() {
@@ -45,12 +61,14 @@ var transitionWeather = function() {
 }
 
 $actionButtons.click(function(e) {
+  console.log("Breakpoint 2");
     var target = $(e.target);
     if (!target.hasClass("action")) {
         target = target.parent();
     }
     if (currentActive != null) {
         console.log(currentActive);
+        console.log("Breakpoint 1");
         currentActive.removeClass(ACTIVE);
         $(widgets[currentActive.attr('name')]).removeClass(ACTIVE);
         if (currentActive[0] == target[0]) {
