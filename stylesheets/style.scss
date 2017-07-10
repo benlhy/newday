@@ -3,7 +3,7 @@ $font-color: #ffffff;
 $font-fam: 'Source Sans Pro', Helvetica, sans-serif;
 
 /* MEYER RESET
-http://meyerweb.com/eric/tools/css/reset/ 
+http://meyerweb.com/eric/tools/css/reset/
 v2.0 | 20110126
 License: none (public domain)
 */
@@ -17,8 +17,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
@@ -29,7 +29,7 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
@@ -182,7 +182,7 @@ a {
     border-radius: 50px;
     transition: background 0.15s;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
 }
 
@@ -254,7 +254,7 @@ $anim-time: 0.4s;
 }
 
 @keyframes up {
-    0% { 
+    0% {
         transform: translate(0,0);
         font-size: 14em;
         max-height: 400px;
@@ -547,13 +547,13 @@ $anim-time: 0.4s;
 }
 
 .todo ul::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3); 
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 100px;
     transition: background-color 0.15s;
 }
 
 .todo ul::-webkit-scrollbar-thumb:active {
-    background-color: rgba(255, 255, 255, 0.5); 
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .todo ul::-webkit-scrollbar-button {
@@ -610,7 +610,7 @@ $anim-time: 0.4s;
 
 @media (max-width: 1200px) {
     .actions {
-        min-height: 200px;    
+        min-height: 200px;
     }
 
     .action {
@@ -648,13 +648,13 @@ $anim-time: 0.4s;
     }
 
     .actions::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.3); 
+        background-color: rgba(255, 255, 255, 0.3);
         border-radius: 100px;
         transition: background-color 0.15s;
     }
 
     .actions::-webkit-scrollbar-thumb:active {
-        background-color: rgba(255, 255, 255, 0.5); 
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     .actions::-webkit-scrollbar-button {

@@ -1,6 +1,6 @@
 /* VARS */
 /* MEYER RESET
-http://meyerweb.com/eric/tools/css/reset/ 
+http://meyerweb.com/eric/tools/css/reset/
 v2.0 | 20110126
 License: none (public domain)
 */
@@ -17,7 +17,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, input {
   margin: 0;
   padding: 0;
   border: 0;
@@ -30,6 +30,117 @@ time, mark, audio, video {
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block; }
+
+.settings_input input{
+  font-family:"Source Sans Pro", Helvetica, sans-serif;
+  font-size: 0.6em;
+}
+
+input[type=text] {
+  /*border:2px solid grey;
+  background-color: rgba(0,0,0,0.4);
+  */
+  border: 0;
+  border-bottom: 1px solid white;
+  border-radius: 4px;
+  margin: 8px;
+  padding: 12px 20px;
+  background: none;
+
+  color: inherit;
+}
+
+input[type=text]:focus {
+    border-color: #555;
+    outline: none;
+
+}
+
+
+#imglabel {
+  margin: 8px;
+  padding: 12px 20px;
+  border: 1px solid white;
+  border-radius:4px;
+  display: block;
+  cursor: pointer;
+  font-family:"Source Sans Pro", Helvetica, sans-serif;
+  font-size: 0.6em;
+  width: 221px;
+  line-height: 150%;
+  text-align: center;
+}
+
+#imglabel:focus{
+  /*outline: auto 5px -webkit-focus-ring-color;*/
+  /*box-shadow: 0 0 3pt 2pt;*/
+  opacity: 0.3;
+}
+.labelAlign {
+  text-align: center;
+  line-height: 150%;
+  display: table;
+  margin: auto;
+
+}
+
+
+.onoffswitch {
+    position: relative; width: 131px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Celcius";
+    padding-left: 10px;
+    background-color: #34A7C1; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "Fahrenheit";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 97px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px;
+}
+
+.temptoggle {
+  padding:5px;
+  margin: 10px;
+  vertical-align: middle;
+}
+
+.innerSetting {
+  top:50%;
+  position:absolute;
+}
 
 /* line 36, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 body {
@@ -82,9 +193,10 @@ a {
   height: auto;
   min-height: 100%;
   position: relative;
-  background: url("../imgs/bgs/cross.jpg");
+  /*background: url("../imgs/bgs/cross.jpg");*/
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   color: #ffffff;
   font-family: "Source Sans Pro", Helvetica, sans-serif;
   font-size: 1em; }
@@ -98,7 +210,7 @@ a {
   box-sizing: border-box; }
 
 /* line 98, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
-.inner, .clock {
+.inner, .clock , .settings{
   padding: 25px 100px 15px 100px;
   position: absolute;
   width: 100%;
@@ -106,7 +218,7 @@ a {
   box-sizing: border-box; }
 
 /* line 106, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
-.inner {
+.inner, .settings {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -125,6 +237,14 @@ a {
 .clock span {
   display: block;
   font-weight: 200; }
+
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: #ffffff;
+  font-family: "Source Sans Pro", Helvetica, sans-serif; }
 
 /* line 127, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .hidden {
@@ -167,6 +287,28 @@ a {
   height: 25px;
   width: auto; }
 
+.header .home-icon {
+  height: 50px;
+  width: auto;
+  /*background: white;*/
+}
+
+#settings-header{
+  text-align: center;
+  position: relative;
+
+}
+
+#settings-title{
+  margin:auto;
+}
+
+#home-button{
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
 /* line 168, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
 .header .gps-icon {
   height: 12px;
@@ -185,7 +327,7 @@ a {
   border-radius: 50px;
   transition: background 0.15s;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center; }
 
 /* line 189, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
@@ -486,6 +628,7 @@ span.tab {
 .todo ul li label .remove {
   height: 12px;
   width: auto;
+  padding:10px;
   margin-right: 15px;
   margin-left: 15px;
   opacity: .5;
@@ -581,7 +724,7 @@ span.tab {
 
 @media (max-width: 1335px) {
   /* line 606, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
-  .inner {
+  .inner, .settings{
     padding: 20px 50px 20px 50px; } }
 
 @media (max-width: 1200px) {
@@ -633,9 +776,74 @@ span.tab {
 
 @media (max-height: 730px) {
   /* line 670, C:/Users/ariel_000/Documents/Web/Dashboard/newday/stylesheets/style.scss */
-  .inner {
+  .inner, .settings{
     display: block;
     position: relative;
     height: auto; } }
 
 /*# sourceMappingURL=style.css.map */
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.namefield{
+  margin:10px 0 0 0;
+  font-size: 0.7em;
+}
