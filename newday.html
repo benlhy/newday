@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,16 +12,68 @@
         <link href='fonts/meteocons.css' rel='stylesheet' type='text/css'>
 
         <!-- STYLESHEETS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href='stylesheets/style.css' rel='stylesheet' type='text/css'>
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.csss" rel="stylesheet" type="text/css">-->
+
 
     </head>
     <body>
-        <div class="container">            
+        <div class="container" id="container">
             <div class="overlay"></div>
-            <div class="clock"><span class="bold time"></span></div>
-            <div class="inner hidden">
+            <div class="clock hidden"><span class="bold time"></span></div>
+            <div class="settings hidden">
+              <div class = "header" id="settings-header">
+                  <span class="bold" id="settings-title">Settings</span>
+                  <div class="header-button" id="home-button">
+                      <i class="fa fa-chevron-left" style="font-size:28px;color:white;"></i>
+                    </div>
+              </div>
+              <div class="content settings_input">
+                <div class="text center namefield">Name</div>
+                <input type="text" name="name" id="namearea" value="value" />
+                <div class="text center namefield">Music</div>
+                <input class="settings_input"  type="text" name="name" id="musicarea" value="spotify.com" />
+                <div class="text center namefield">Watch</div>
+                <input class="settings_input" type="text" name="name" id="watcharea" value="netflix.com" />
+                <div class="text center namefield">Celsius</div>
+                  <div class="temptoggle">
+                  <span>
+                    <label class="switch center">
+                      <input type="checkbox" id="tempCheckbox">
+                      <div class="slider round"></div>
+                    </label>
+                  </span>
+                </div>
+                <div class="text center namefield">Background</div>
+                <div class = "labelAlign">
+                  <input type="file" id="image" class="hidden settings_input"/>
+                  <label for="image" id="imglabel">
+                    SELECT FILE
+                  </label>
+                </div>
+
+                <!--<div id = "fileDisplayArea"></div>-->
+                <!--<div class="text center namefield">Location</div>
+                  <div class="temptoggle">
+                  <span>
+                    <label class="switch center">
+                      <input type="checkbox" id="locationCheckbox">
+                      <div class="slider round"></div>
+                    </label>
+                  </span>
+                </div>-->
+              </div>
+              <!--<div class="content">
+                <label class="switch">
+                  <input type="checkbox">
+                  <div class="slider round"></div>
+                </label>
+              </div>-->
+            </div>
+            <div class="inner">
                 <div class="header">
-                    <div><span id="location">IDENTIFYING LOCATION</span><img class="gps-icon" src="imgs/gps.svg"></div>
+                   <div><span>IDENTIFYING LOCATION</span><img class="gps-icon" src="imgs/gps.svg"></div>
                     <div class="center"><span class="bold time"></span></div>
                     <div class="right">
                         <div class="header-button" id="clock-button"><img class="icon" src="imgs/clock.svg"></div><span class="tab"></span>
@@ -32,7 +83,7 @@
                 <div class="content">
                     <div class="weather">
                         <span class="weather-icon" data-icon="A"></span>
-                        <div class="text"><span class="bold"><span id="greeting">Good morning</span>, <span id="name">Arielle</span></span>. It's <span class="bold" id="temp">some temperature (currently unreadable)</span> outside.<br/>What would you like to do?</div>
+                        <div class="text"><span class="bold"><span id="greeting">Good morning</span>, <span id="name">Stranger</span></span>. It's <span class="bold" id="temp">some temperature (currently unreadable)</span> outside.<br/>What would you like to do?</div>
                     </div>
 
                     <div class="widget mirror" id="mirror">
@@ -43,7 +94,7 @@
                         <ul>
                             <div class="nothing">You have no todos. Try adding one!</div>
                         </ul>
-                        
+
                         <div class="addTodo">
                             <input id="addInput" type="text" placeholder="I have to..."/><img id="addButton" src="imgs/plus-button.svg">
                         </div>
@@ -62,15 +113,20 @@
                         <img class="action-icon" src="imgs/todo.svg">
                         <span class="bold">TODO</span>
                     </div>
+                    <!--<a href="https://keep.google.com" class="action" name="todo">
+                        <img class="action-icon" src="imgs/todo.svg">
+                        <span class="bold">TODO</span>
+                    </a>-->
+
                     <a href="https://gmail.com" class="action" name="email">
                         <img class="action-icon" src="imgs/email.svg">
                         <span class="bold">EMAIL</span>
                     </a>
-                    <a href="https://netflix.com" class="action" name="watch">
+                    <a href="https://netflix.com" class="action" name="watch" id="watch">
                         <img class="action-icon" src="imgs/tv.svg">
                         <span class="bold">WATCH</span>
                     </a>
-                    <a href="https://play.spotify.com/" class="action" name="music">
+                    <a href="https://play.spotify.com/" class="action" name="music" id="music">
                         <img class="action-icon" src="imgs/music.svg">
                         <span class="bold">MUSIC</span>
                     </a>
